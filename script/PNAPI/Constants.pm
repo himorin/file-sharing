@@ -82,9 +82,9 @@ sub LOCATIONS {
     my $inspath = dirname(dirname($INC{'PNAPI/Constants.pm'}));
     # detaint
     $inspath =~ /(.*)/;
-    $inspath = $1;
+    $inspath = dirname($1);
     if (($inspath eq '.') || ($inspath eq '..')) {
-       $inspath = getcwd();
+       $inspath = dirname(getcwd());
     }
     return {
         'cgi'        => $inspath,
