@@ -24,7 +24,7 @@ if ($obj_cgi->request_method() eq 'POST') {
 my $ret = {};
 
 my $sth = $dbh->prepare('SELECT * FROM tenants');
-$sth->execute($c_tenant);
+$sth->execute();
 while (my $ref = $sth->fetchrow_hashref) {
   $ret->{$ref->{'tenant'}} = $ret;
 }
