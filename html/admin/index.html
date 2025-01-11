@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ファイル共有サービス管理画面</title>
+  <script>
+<!--
+function load_tenants() {
+}
+function add_new_tenant() {
+}
+window.addEventListener('load', () => {
+  load_tenants();
+  document.getElementById('new_tenant_form_submit').addEventListener('click', () => { add_new_tenant(); });
+}
+-->
+  </script>
+</head>
+<body>
+<h1>ファイル共有サービス管理画面</h1>
+<ul>
+  <li><a href="#tenant_list">登録されているテナントリスト</a></li>
+  <li><a href="#new_tenant">テナントの新規登録</a></li>
+</ul>
+<p>
+  このサービスはイベント運営に必要なファイル共有を行うためのサービスです。
+  この画面は全体の管理画面になります。
+</p>
+<p>
+  利用方法の詳細は<a href="../docs/">利用・管理ドキュメント</a>を参照してください。
+  基本的には、「テナント」と呼んでいる個別管理領域ごとに管理が分かれており、その中にファイルがアップロードされ、ラベル付けが可能な状態になります。
+  個別ファイル、もしくは各ラベルには専用のURLが発行され、そのURL(リンク)を知っている人だけがアクセスできるようになります。
+</p>
+<h2 id="tenant_list">登録されているテナントリスト</h2>
+<p>
+  以下はこのシステムで利用可能なテナントのリストになります。<br>
+  管理キーは各テナントの管理画面を表示するために必要なキーですので、漏洩しないようにしてください。
+</p>
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>管理リンク</td>
+      <td>テナント名</td>
+      <td>テナントの説明</td>
+      <td>管理キー</td>
+      <td>データアーカイブURL</td>
+    </tr>
+  </thead>
+  <tbody id="tenant_table"></tbody>
+</table>
+<h2 id="new_tenant">テナントの新規登録</h2>
+<p>
+  以下のフォームに必要な情報を入力して登録ボタンを押してください。<br>
+  テナント名は半角の英文字・数字だけが利用可能で、既存のテナント名と重複することができません。管理キーは自動的に生成されます。
+</p>
+<form id="new_tenant_form">
+  <ul>
+    <li>テナント名: <input type="text" id="new_tenant_form_name" size="20"></li>
+    <li>テナントの説明: <input type="text" id="new_tenant_form_memo" size="100"></li>
+  </ul>
+  <input type="button" id="new_tenant_form_submit" value="登録">
+</form>
+</body>
+</html>
