@@ -13,6 +13,7 @@
   * `fid`: ファイルID
   * `name`: ファイル名
   * `mimetype`: MIME type (拡張子を入れる)
+  * `memo`: ファイルの説明
 * `labels`: ラベルリスト
   + `tid`: テナントID
   * `lid`: ラベルID
