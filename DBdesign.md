@@ -41,14 +41,14 @@ CREATE TABLE tenants (
   name              text            NOT NULL                             ,
   memo              text            NOT NULL                             ,
   redirect          text                NULL                             
-) DEFAULT CHARSET=utf8
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE files (
   tid               text            NOT NULL                             ,
   fid               text            NOT NULL UNIQUE                      ,
   name              text            NOT NULL                             ,
   mimetype          text            NOT NULL                             
-) DEFAULT CHARSET=utf8
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE labels (
   tid               text            NOT NULL                             ,
@@ -56,15 +56,15 @@ CREATE TABLE labels (
   isgroup           tinyint         NOT NULL DEFAULT 0                   ,
   name              text            NOT NULL                             ,
   memo              text                NULL                             
-) DEFAULT CHARSET=utf8
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE flabel (
   fid               text            NOT NULL                             ,
   lid               text            NOT NULL                             
-) DEFAULT CHARSET=utf8
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE glabel (
   gid               text            NOT NULL                             ,
   lid               text            NOT NULL                             
-) DEFAULT CHARSET=utf8
+) DEFAULT CHARSET=utf8;
 ```
