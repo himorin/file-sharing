@@ -50,10 +50,11 @@ sub secret_to_int {
   return hex $val;
 }
 
+# non-standard edit: added $tenant parameter
 sub GetHashFilename {
-  my ($self, $target, $is_preview, $isnew) = @_;
+  my ($self, $target, $is_preview, $tenant, $isnew) = @_;
   my $hashnum = $self->get('hashdir');
-  my $fname = PNAPI::Constants::LOCATIONS()->{'hashdir'} . '/';
+  my $fname = PNAPI::Constants::LOCATIONS()->{'hashdir'} . '/' . $tenant . '/';
   my $hsize = PNAPI::Constants::HASH_DIRSIZE;
   my $tmp = $target;
 
