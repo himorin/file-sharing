@@ -49,7 +49,7 @@ function add_new_tenant() {
     hval += '</tr>';
     document.getElementById('tenant_table').innerHTML += hval;
   }).catch((err) => {
-    let errs = split(/\n/, err.status);
+    let errs = err.status.split("\n");
     showWarn(errs[0]);
     document.getElementById(deid('warning_api_text')).innerText = errs[1];
   })
