@@ -7,16 +7,16 @@
 <!--
 const api_tenants = 'api/tenants.cgi';
 function buildTidRow(item) {
-  let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
-  hval += '<td>' + res['tid'] + '</td>';
-  hval += '<td>' + buildLinks(res['tid']) + '</td>';
-  hval += '<td>' + res['name'] + '</td>';
-  hval += '<td>' + res['memo'] + '</td>';
-  hval += '<td>' + res['adminkey'] + '</td>';
-  if (res['redirect'] == null) {
+  let hval = '<tr id="tenant_table_row_' + item['tid'] + '">';
+  hval += '<td>' + item['tid'] + '</td>';
+  hval += '<td>' + buildLinks(item['tid']) + '</td>';
+  hval += '<td>' + item['name'] + '</td>';
+  hval += '<td>' + item['memo'] + '</td>';
+  hval += '<td>' + item['adminkey'] + '</td>';
+  if (item['redirect'] == null) {
     hval += '<td></td>';
   } else {
-    hval += '<td>' + res['redirect'] + '</td>';
+    hval += '<td>' + item['redirect'] + '</td>';
   }
   hval += '</tr>';
   return hval;
@@ -33,7 +33,6 @@ function load_tenants() {
       throw Error('api');
     }
   }).then((res) => {
-    let hval;
     Object.keys(res).forEach(item => { hval += buildTidRow(item); })
     document.getElementById('tenant_table').innerHTML = hval;
   })
