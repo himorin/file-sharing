@@ -1,4 +1,8 @@
 
+ul.inlinelist {
+  display: inline;
+  padding: 0;
+}
 ul.inlinelist > li {
   display: inline;
 }
@@ -11,7 +15,7 @@ table, th, td {
   border-collapse: collapse;
 }
 td {
-  padding: 0 2em;
+  padding: 0.3em;
 }
 
 .warning {
