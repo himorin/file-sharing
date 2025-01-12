@@ -34,7 +34,7 @@ function load_tenants() {
     }
   }).then((res) => {
     let hval;
-    Object.keys(res).forEach(item => { hval += buildTidRow(item); })
+    Object.keys(res).forEach(item => { hval += buildTidRow(res[item]); })
     document.getElementById('tenant_table').innerHTML = hval;
   })
 }
