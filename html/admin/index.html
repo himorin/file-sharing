@@ -36,7 +36,8 @@ function add_new_tenant() {
   }).then((res) => {
     if (res.ok) { return res.json(); }
     else {
-      throw Error("api\n" + res.json()['message']);
+      cdat = await res.json();
+      throw Error("api\n" + cdat['message']);
     }
   }).then((res) => {
     let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
