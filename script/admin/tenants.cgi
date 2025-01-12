@@ -66,6 +66,8 @@ if ($obj_cgi->request_method() eq 'POST') {
   $sth->execute($cdat->{'tid'});
   my $ret = $sth->fetchrow_hashref();
   $ret->{'adminkey'} = $obj_config->int_to_secret($ret->{'adminkey'});
+  print $obj_cgi->header(200);
+  print to_json(\%$ret);
   exit;
 }
 
