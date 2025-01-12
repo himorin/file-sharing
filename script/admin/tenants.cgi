@@ -26,7 +26,7 @@ if ($obj_cgi->request_method() eq 'POST') {
     $obj_cgi->send_error(503, 'invalid data');
     exit;
   }
-  if ($cdat->{'tid'} !=~ /^[a-z0-9]+$/) {
+  if ($cdat->{'tid'} !~ /^[a-z0-9]+$/) {
     $obj_cgi->send_error(503, 'invalid tid');
     exit;
   }
