@@ -33,6 +33,7 @@ function load_tenants() {
       throw Error('api');
     }
   }).then((res) => {
+    let hval;
     Object.keys(res).forEach(item => { hval += buildTidRow(item); })
     document.getElementById('tenant_table').innerHTML = hval;
   })
