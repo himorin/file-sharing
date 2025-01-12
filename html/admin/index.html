@@ -6,6 +6,25 @@
   <script>
 <!--
 const api_tenants = 'api/tenants.cgi';
+function buildTidRow(item) {
+  let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
+  hval += '<td>' + res['tid'] + '</td>';
+  hval += '<td>' + buildLinks(res['tid']) + '</td>';
+  hval += '<td>' + res['name'] + '</td>';
+  hval += '<td>' + res['memo'] + '</td>';
+  hval += '<td>' + res['adminkey'] + '</td>';
+  if (res['redirect'] == null) {
+    hval += '<td></td>';
+  } else {
+    hval += '<td>' + res['redirect'] + '</td>';
+  }
+  hval += '</tr>';
+  return hval;
+}
+function buildLinks(tid) {
+  let hval = '';
+  return hval;
+}
 function load_tenants() {
   fetch(api_tenants)
   .then((res) => {
@@ -15,6 +34,8 @@ function load_tenants() {
     }
   }).then((res) => {
     let hval;
+    Object.keys(res).forEach(item => { hval += buildTidRow(item); })
+    document.getElementById('tenant_table').innerHTML = hval;
   })
 }
 function add_new_tenant() {
@@ -48,28 +69,12 @@ function add_new_tenant() {
       return res.json().then((res) => { throw Error("api\n" + res['message']); })
     }
   }).then((res) => {
-    let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
-    hval += '<td>' + res['tid'] + '</td>';
-    hval += '<td>' + buildLinks(res['tid']) + '</td>';
-    hval += '<td>' + res['name'] + '</td>';
-    hval += '<td>' + res['memo'] + '</td>';
-    hval += '<td>' + res['adminkey'] + '</td>';
-    if (res['redirect'] == null) {
-      hval += '<td></td>';
-    } else {
-      hval += '<td>' + res['redirect'] + '</td>';
-    }
-    hval += '</tr>';
-    document.getElementById('tenant_table').innerHTML += hval;
+    document.getElementById('tenant_table').innerHTML += buildTidRow(res);
   }).catch((err) => {
     let errs = err.message.split("\n");
     showWarn(errs[0]);
     document.getElementById(deid('warning_api_text')).innerText = errs[1];
   })
-}
-function buildLinks(tid) {
-  let hval = '';
-  return hval;
 }
 window.addEventListener('load', () => {
   load_tenants();
