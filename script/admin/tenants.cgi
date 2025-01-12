@@ -77,7 +77,7 @@ $sth = $dbh->prepare('SELECT * FROM tenants');
 $sth->execute();
 while (my $ref = $sth->fetchrow_hashref) {
   $ref->{'adminkey'} = $obj_config->int_to_secret($ref->{'adminkey'});
-  $ret->{$ref->{'tenant'}} = $ref;
+  $ret->{$ref->{'tid'}} = $ref;
 }
 
 print $obj_cgi->header(200);
