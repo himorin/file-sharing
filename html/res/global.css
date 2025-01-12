@@ -1,0 +1,9 @@
+
+
+.warning {
+  border: #FF0000 0.2em solid;
+  padding: 0.5em;
+}
+.warning, .warning_item {
+  display: none;
+}

@@ -24,7 +24,7 @@ function add_new_tenant() {
   cdat['tid'] = document.getElementById(deid('tid')).value;
   cdat['name'] = document.getElementById(deid('name')).value;
   cdat['memo'] = document.getElementById(deid('memo')).value;
-  if (tid_re.test(cdat['tid'])) {
+  if (! tid_re.test(cdat['tid'])) {
     showWarn('tid');
     return;
   }
