@@ -5,9 +5,55 @@
   <title>ファイル共有サービス管理画面</title>
   <script>
 <!--
+const api_tenants = 'api/tenants.cgi';
 function load_tenants() {
 }
 function add_new_tenant() {
+  let deid = (id) => { return 'new_tenant_form_' + id; };
+  // clear warning
+  document.getElementById(deid('warning')).style.display = 'none';
+  ['tid'].forEach(elem => { document.getElementById(deid('warning_' + elem)).style.display = 'none'; });
+  let showWarn = (id) => {
+    document.getElementById(deid('warning_' + id)).style.display = 'block';
+    document.getElementById(deid('warning')).style.display = 'block';
+  };
+  // exec
+  const tid_re = /^[a-z0-9]+$/;
+  let cdat = {};
+  cdat['method'] = 'add';
+  cdat['tid'] = document.getElementById(deid('tid')).value;
+  cdat['name'] = document.getElementById(deid('name')).value;
+  cdat['memo'] = document.getElementById(deid('memo')).value;
+  if (tid_re.test(cdat['tid'])) {
+    showWarn('tid');
+    return;
+  }
+  fetch(api_tenants, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(cdat),
+  }).then((res) => {
+    if (res.ok) { return res.json(); }
+    else {
+      throw Error('api');
+    }
+  }).then((res) => {
+    let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
+    hval += '<td>' + res['tid'] + '</td>';
+    hval += '<td>' + buildLinks(res['tid']) + '</td>';
+    hval += '<td>' + res['name'] + '</td>';
+    hval += '<td>' + res['memo'] + '</td>';
+    hval += '<td>' + res['adminkey'] + '</td>';
+    hval += '<td>' + res['redirect'] + '</td>';
+    hval += '</tr>';
+    document.getElementById('tenant_table').innerHTML += hval;
+  }).catch((err) => {
+    showWarn(err.status)
+  })
+}
+function buildLinks(tid) {
+  let hval;
+  return hval;
 }
 window.addEventListener('load', () => {
   load_tenants();
@@ -53,14 +99,22 @@ window.addEventListener('load', () => {
 <h2 id="new_tenant">テナントの新規登録</h2>
 <p>
   以下のフォームに必要な情報を入力して登録ボタンを押してください。<br>
-  テナント名は半角の英文字・数字だけが利用可能で、既存のテナント名と重複することができません。管理キーは自動的に生成されます。
+  テナントIDは半角の英小文字・数字だけが利用可能です。また、テナントIDとテナント名は既存のものと重複することができません。<br>
+  管理キーは自動的に生成されますので設定できません。
 </p>
 <form id="new_tenant_form">
   <ul>
-    <li>テナント名: <input type="text" id="new_tenant_form_name" size="20"></li>
+    <li>テナントID: <input type="text" id="new_tenant_form_tid" size="20"> (半角英小文字・数字のみです)</li>
+    <li>テナント名: <input type="text" id="new_tenant_form_name" size="40"></li>
     <li>テナントの説明: <input type="text" id="new_tenant_form_memo" size="100"></li>
   </ul>
   <input type="button" id="new_tenant_form_submit" value="登録">
+  <div id="new_tenant_form_warning" class="warning">
+    以下の問題のため、テナントの新規登録の処理が完了できませんでした。
+    <ul>
+      <li id="new_tenant_form_warning_tid" class="warning_item">新規テナントのテナントIDが異常です。半角英小文字・数字のみで構成されていることを確認してください。</li>
+    </ul>
+  </div>
 </form>
 </body>
 </html>

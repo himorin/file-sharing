@@ -14,6 +14,8 @@
   * `name`: ファイル名
   * `mimetype`: MIME type (拡張子を入れる)
   * `memo`: ファイルの説明
+  * `dt`: アップロード日時
+  * `size`: ファイルサイズ (byte)
 * `labels`: ラベルリスト
   + `tid`: テナントID
   * `lid`: ラベルID
@@ -47,7 +49,10 @@ CREATE TABLE files (
   tid               text            NOT NULL                             ,
   fid               text            NOT NULL UNIQUE                      ,
   name              text            NOT NULL                             ,
-  mimetype          text            NOT NULL                             
+  mimetype          text            NOT NULL                             ,
+  memo              text            NOT NULL                             ,
+  dt                DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP   ,
+  size              int             NOT NULL DEFAULT 0                   
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE labels (
