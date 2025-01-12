@@ -1,4 +1,11 @@
 
+ul.inlinelist > li {
+  display: inline;
+}
+ul.inlinelist > li:not(:last-of-type)::after {
+  content: " | ";
+}
+
 table, th, td {
   border: 1px solid #000000;
   border-collapse: collapse;

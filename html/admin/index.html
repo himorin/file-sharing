@@ -22,7 +22,9 @@ function buildTidRow(item) {
   return hval;
 }
 function buildLinks(tid) {
-  let hval = '';
+  let hval = '<ul class="inlinelist">';
+  hval += '<li><a href="../tn/' + tid + '/">管理画面</a></li>';
+  hval += '</ul>';
   return hval;
 }
 function load_tenants() {
