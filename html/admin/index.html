@@ -7,6 +7,15 @@
 <!--
 const api_tenants = 'api/tenants.cgi';
 function load_tenants() {
+  fetch(api_tenants)
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else {
+      throw Error('api');
+    }
+  }).then((res) => {
+    let hval;
+  })
 }
 function add_new_tenant() {
   let deid = (id) => { return 'new_tenant_form_' + id; };
@@ -45,7 +54,11 @@ function add_new_tenant() {
     hval += '<td>' + res['name'] + '</td>';
     hval += '<td>' + res['memo'] + '</td>';
     hval += '<td>' + res['adminkey'] + '</td>';
-    hval += '<td>' + res['redirect'] + '</td>';
+    if (res['redirect'] == null) {
+      hval += '<td></td>';
+    } else {
+      hval += '<td>' + res['redirect'] + '</td>';
+    }
     hval += '</tr>';
     document.getElementById('tenant_table').innerHTML += hval;
   }).catch((err) => {
@@ -55,7 +68,7 @@ function add_new_tenant() {
   })
 }
 function buildLinks(tid) {
-  let hval;
+  let hval = '';
   return hval;
 }
 window.addEventListener('load', () => {

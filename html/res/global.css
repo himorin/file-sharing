@@ -1,4 +1,11 @@
 
+table, th, td {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+}
+td {
+  padding: 0 2em;
+}
 
 .warning {
   border: #FF0000 0.2em solid;
