@@ -12,7 +12,8 @@ function add_new_tenant() {
   let deid = (id) => { return 'new_tenant_form_' + id; };
   // clear warning
   document.getElementById(deid('warning')).style.display = 'none';
-  ['tid'].forEach(elem => { document.getElementById(deid('warning_' + elem)).style.display = 'none'; });
+  ['tid', 'api'].forEach(elem => { document.getElementById(deid('warning_' + elem)).style.display = 'none'; });
+  document.getElementById(deid('warning_api_text')).innerText = '';
   let showWarn = (id) => {
     document.getElementById(deid('warning_' + id)).style.display = 'block';
     document.getElementById(deid('warning')).style.display = 'block';
@@ -35,7 +36,7 @@ function add_new_tenant() {
   }).then((res) => {
     if (res.ok) { return res.json(); }
     else {
-      throw Error('api');
+      throw Error("api\n" + res.json()['message']);
     }
   }).then((res) => {
     let hval = '<tr id="tenant_table_row_' + res['tid'] + '">';
@@ -48,7 +49,9 @@ function add_new_tenant() {
     hval += '</tr>';
     document.getElementById('tenant_table').innerHTML += hval;
   }).catch((err) => {
-    showWarn(err.status)
+    let errs = split(/\n/, err.status);
+    showWarn(errs[0]);
+    document.getElementById(deid('warning_api_text')).innerText = errs[1];
   })
 }
 function buildLinks(tid) {
@@ -113,6 +116,7 @@ window.addEventListener('load', () => {
     以下の問題のため、テナントの新規登録の処理が完了できませんでした。
     <ul>
       <li id="new_tenant_form_warning_tid" class="warning_item">新規テナントのテナントIDが異常です。半角英小文字・数字のみで構成されていることを確認してください。</li>
+      <li id="new_tenant_form_warning_api" class="warning_item">登録処理時にAPIからエラーが戻りました。<span id="new_tenant_form_warning_api_text"></span></li>
     </ul>
   </div>
 </form>

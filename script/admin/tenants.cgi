@@ -63,6 +63,7 @@ if ($obj_cgi->request_method() eq 'POST') {
     exit;
   }
   $sth = $dbh->prepare('SELECT * FROM tenants WHERE tid = ?');
+  $sth->execute($cdat->{'tid'});
   my $ret = $sth->fetchrow_hashref();
   $ret->{'adminkey'} = $obj_config->int_to_secret($ret->{'adminkey'});
   exit;
