@@ -41,7 +41,7 @@ if (defined($c_fid)) {
   if (defined($fmime)) { $fmime = lc($fmime); }
   else { $fmime = DEF_MIMETYPE; }
   my $fdl = $finfo->{'name'} . '.' . $finfo->{'mimetype'};
-  print $obj_cgi->header(
+  print $obj_cgi->header(200,
     -type => "$fmime; name=\"$fdl\"",
     -content_disposition => "attachment; filename=\"$fdl\"",
     -content_length => $finfo->{'size'},
