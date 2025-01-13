@@ -76,8 +76,7 @@ if ($sth->rows != 1) {
   $obj_cgi->send_error(503, 'registration error');
   exit;
 }
-my $ref = $sth->fetchrow_hashref();
-$ret->{$ref->{'name'}} = $ref;
+$ret = $sth->fetchrow_hashref();
 
 print $obj_cgi->header(200);
 print to_json(\%$ret);
