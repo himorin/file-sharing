@@ -11,6 +11,8 @@ let akey = { 'dir': '../../' };
 const api_path = {
   'tn': '/api/tn.cgi',
   'admin': '/api/admin.cgi',
+  'admin_add': '/api/admin_add.cgi',
+  'admin_edit': '/api/admin_edit.cgi',
 }
 
 // init for all, check adminkey
@@ -48,13 +50,46 @@ function showGroup() {
   chv = '';
   Object.keys(akey['labels']).sort().forEach((item) => {
     chv += '<tr>';
-    chv += '<td>' + akey['groups'][item]['name'] + '</td>';
+    chv += '<td>' + akey['labels'][item]['name'] + '</td>';
     chv += '<td></td>';
-    chv += '<td>' + akey['groups'][item]['memo'] + '</td>';
-    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['groups']['item']['lid'] + '/">ダウンロード</a></td>';
+    chv += '<td>' + akey['labels'][item]['memo'] + '</td>';
+    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['labels']['item']['lid'] + '/">ダウンロード</a></td>';
     chv += '</tr>';
   })
   document.getElementById('panel_group_label_list').innerHTML = chv;
+}
+function addResGroup() {
+  let val = {};
+  val['mode'] = 'group';
+  val['name'] = document.getElementById('panel_group_group_add_name').value;
+  val['memo'] = document.getElementById('panel_group_group_add_memo').value;
+  addRes(val);
+}
+function addResLabel() {
+  let val = {};
+  val['mode'] = 'label';
+  val['name'] = document.getElementById('panel_group_label_add_name').value;
+  val['memo'] = document.getElementById('panel_group_label_add_memo').value;
+  addRes(val);
+}
+function addRes(val) {
+  val['tid'] = akey['tid'];
+  fetch(akey['dir'] + api_path['admin_add'], {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(val),
+  }).then((res) => {
+    if (res.ok) { return res.json(); }
+    else {
+      return res.json().then((res) => { throw Error("api\n" + res['message']); })
+    }
+  }).then((res) => {
+    if ('gid' in res) { akey['groups'][res['name']] = res; }
+    else { akey['labels'][res['name']] = res; }
+    showGroup();
+  }).catch((err) => {
+    // show error
+  })
 }
 
 function showUploads() {
@@ -118,6 +153,8 @@ window.addEventListener('load', () => {
   }
   // register functions to all buttons
   document.getElementById('panel_adminkey_check').addEventListener('click', checkAdminkey);
+  document.getElementById('panel_group_group_add_submit').addEventListener('click', addResGroup);
+  document.getElementById('panel_group_label_add_submit').addEventListener('click', addResLabel);
   // exec
   showAdmPanel();
 });
@@ -181,6 +218,19 @@ window.addEventListener('load', () => {
     </thead>
     <tbody id="panel_group_group_list"></tbody>
   </table>
+  <h3 id="panel_group_group_add">グループの追加</h3>
+  <form>
+    <p>
+      グループを追加する際には、以下に名前・説明を入力して登録ボタンを押してください。<br>
+      グループ名は既存のグループ名・ラベル名と重複することはできません。<br>
+      グループに対してアップロードページが用意されるので、アップロードページでわかりやすい説明を設定することを推奨します。
+    </p>
+    <ul>
+      <li>グループ名: <input type="text" size="20" id="panel_group_group_add_name"></li>
+      <li>グループの説明: <input type="text" size="100" id="panel_group_group_add_memo"></li>
+    </ul>
+    <input type="button" id="panel_group_group_add_submit" value="登録する">
+  </form>
   <h2 id="panel_group_label">ラベル一覧</h2>
   <p>
     このテナント<span class="apival_name"></span>に設定されているラベルの一覧です。
@@ -196,6 +246,18 @@ window.addEventListener('load', () => {
     </thead>
     <tbody id="panel_group_label_list"></tbody>
   </table>
+  <h3 id="panel_group_label_add">ラベルの追加</h3>
+  <form>
+    <p>
+      ラベルを追加する際には、以下に名前・説明を入力して登録ボタンを押してください。<br>
+      ラベル名は既存のグループ名・ラベル名と重複することはできません。
+    </p>
+    <ul>
+      <li>ラベル名: <input type="text" size="20" id="panel_group_label_add_name"></li>
+      <li>ラベルの説明: <input type="text" size="100" id="panel_group_label_add_memo"></li>
+    </ul>
+    <input type="button" id="panel_group_label_add_submit" value="登録する">
+  </form>
 </div>
 <div id="panel_uploads" class="inithide">
   <h1>ファイル共有サービス - テナント <span class="apival_name"></span> - ファイル一覧・管理画面</h1>

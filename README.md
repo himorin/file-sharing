@@ -99,6 +99,8 @@
   * `/api/tn.cgi?tn=<tenant>`: テナントに関する情報 (tenantsテーブル、グループ名・ラベル名)
   * テナント管理系 (各管理キー必要 - cookie利用する; そこまで重量級にならないと思うので一括にする)
     * `/api/admin.cgi?tn=<tenant>`: テナントに関連した情報 (ラベル・グループ一覧、ファイル一覧)
+    * `/api/admin_add.cgi`: (POST) ラベル・グループの追加
+    * `/api/admin_edit.cgi`: (POST) 属性の編集 (ラベル・グループ・ファイルすべて)
 
 
 ## API機能要件
