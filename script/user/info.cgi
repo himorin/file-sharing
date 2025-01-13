@@ -96,7 +96,7 @@ $ret->{'tenant'}->{'name'} = $cv->{'name'};
 $ret->{'tenant'}->{'memo'} = $cv->{'memo'};
 
 if (defined($cgid) && (defined($cv->{'redirect'}) || ($cv->{'noup'} != 0))) {
-  $obj_cgi->send_error(503, 'upload closed'):
+  $obj_cgi->send_error(503, 'upload closed');
   exit;
 }
 
