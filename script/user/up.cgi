@@ -56,7 +56,7 @@ if (! defined($nrow)) {
   exit;
 }
 $sth = $dbh->prepare('SELECT * FROM files WHERE fid = ?');
-$sth->execute($fid);
+$sth->execute($fid->[0]);
 if ($sth->rows != 1) {
   $obj_cgi->send_error(503, 'id registration failed');
   exit;
