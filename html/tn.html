@@ -31,8 +31,38 @@ function showAdmPanel() {
   checkAdminkey();
 }
 
+function showGroup() {
+  // group
+  let chv = '';
+  Object.keys(akey['groups']).sort().forEach((item) => {
+    chv += '<tr>';
+    chv += '<td>' + akey['groups'][item]['name'] + '</td>';
+    chv += '<td></td>';
+    chv += '<td>' + akey['groups'][item]['memo'] + '</td>';
+    chv += '<td><a href="' + akey['dir'] + '/up/' + akey['groups']['item']['gid'] + '/">アップロード</a></td>';
+    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['groups']['item']['lid'] + '/">ダウンロード</a></td>';
+    chv += '</tr>';
+  })
+  document.getElementById('panel_group_group_list').innerHTML = chv;
+  // label
+  let chv = '';
+  Object.keys(akey['labels']).sort().forEach((item) => {
+    chv += '<tr>';
+    chv += '<td>' + akey['groups'][item]['name'] + '</td>';
+    chv += '<td></td>';
+    chv += '<td>' + akey['groups'][item]['memo'] + '</td>';
+    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['groups']['item']['lid'] + '/">ダウンロード</a></td>';
+    chv += '</tr>';
+  })
+  document.getElementById('panel_group_label_list').innerHTML = chv;
+}
+
+function showUploads() {
+}
+
 function checkAdminkey() {
   let cv = document.getElementById('panel_adminkey_adminkey').value;
+  document.getElementById('splash').style.display = 'none';
   if (cv != '') {
     document.cookie = akey['tid'] + '=' + cv + '; samesite=strict; path=' + akey['head'];
   }
@@ -54,12 +84,12 @@ function checkAdminkey() {
     document.getElementById('panel_adminkey').style.display = 'none';
     document.getElementById('panel_' + akey['mode']).style.display = 'block';
     akey['groups'] = res['groups'];
+    akey['labels'] = res['labels'];
     akey['files'] = res['files'];
     akey[akey['tid']] = res[akey['tid']];
     if (akey['mode'] == 'group') { showGroup(); }
     if (akey['mode'] == 'uploads') { showUploads(); }
   }).catch((e) => {
-    document.getElementById('splash').style.display = 'none';
     document.getElementById('panel_adminkey').style.display = 'block';
   })
 }
@@ -129,6 +159,43 @@ window.addEventListener('load', () => {
 </div>
 <div id="panel_group" class="inithide">
   <h1>ファイル共有サービス - テナント <span class="apival_name"></span> - グループ・ラベル一覧・管理画面</h1>
+  <p>
+    このファイル共有サービスでは各テナントごとにグループとラベルが設定できます。テナントをまたいで共通ではありません。<br>
+    グループはファイルをアップロードする場所となります。ラベルは、アップロードされたファイルやグループに対してつけることができ、ラベルを利用した取りまとめが可能になります。<br>
+    ファイル、グループ、ラベルとも、それぞれ専用のダウンロードリンクが提供されます。
+  </p>
+  <h2 id="panel_group_group">グループ一覧</h2>
+  <p>
+    このテナント<span class="apival_name"></span>に設定されているグループの一覧です。<br>
+    ダウンロード用のリンクとアップロード用のリンクを取り違えて連絡しないようにご注意ください。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>グループ名</th>
+        <th>管理リンク</th>
+        <th>グループの説明</th>
+        <th>アップロードURL</th>
+        <th>ダウンロードURL</th>
+      </tr>
+    </thead>
+    <tbody id="panel_group_group_list"></tbody>
+  </table>
+  <h2 id="panel_group_label">ラベル一覧</h2>
+  <p>
+    このテナント<span class="apival_name"></span>に設定されているラベルの一覧です。
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>ラベル名</th>
+        <th>管理リンク</th>
+        <th>ラベルの説明</th>
+        <th>ダウンロードURL</th>
+      </tr>
+    </thead>
+    <tbody id="panel_group_label_list"></tbody>
+  </table>
 </div>
 <div id="panel_uploads" class="inithide">
   <h1>ファイル共有サービス - テナント <span class="apival_name"></span> - ファイル一覧・管理画面</h1>

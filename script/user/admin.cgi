@@ -32,8 +32,25 @@ if ($is_ok == 0) {
 }
 
 $ret->{$c_tenant} = $sth->fetchrow_hashref();
+$ret->{$c_tenant}->{'adminkey'} = $obj_config->int_to_secret($ret->{$c_tenant}->{'adminkey'});
 
 # groups
+$sth = $dbh->prepare('SELECT * FROM labels WHERE tid = ?');
+$sth->execute($c_tenant);
+$ret->{'groups'} = {};
+$ret->{'labels'} = {};
+while (my $ref = $sth->fetchrow_hashref) {
+  my $cv = {};
+  $cv->{'lid'} = $ref->{'lid'};
+  $cv->{'name'} = $ref->{'name'};
+  $cv->{'memo'} = $ref->{'memo'};
+  if (defined($ref->{'gid'})) {
+    $cv->{'gid'} = $ref->{'gid'};
+    $ret->{'groups'}->{$cv->{'name'}} = $cv;
+  } else {
+    $ret->{'labels'}->{$cv->{'name'}} = $cv;
+  }
+}
 
 
 # files

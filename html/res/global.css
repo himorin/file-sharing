@@ -3,6 +3,9 @@ div.inithide {
   display: none;
 }
 
+span.apival_name {
+  font-weight: bold;
+}
 
 ul.inlinelist {
   display: inline;
