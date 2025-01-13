@@ -18,6 +18,11 @@ function buildTidRow(item) {
   } else {
     hval += '<td>' + item['redirect'] + '</td>';
   }
+  if (item['noup'] != 0) {
+    hval += '<td>アップロード停止中</td>';
+  } else {
+    hval += '<td></td>';
+  }
   hval += '</tr>';
   return hval;
 }
@@ -115,6 +120,7 @@ window.addEventListener('load', () => {
       <td>テナントの説明</td>
       <td>管理キー</td>
       <td>データアーカイブURL</td>
+      <td>処理フラグ</td>
     </tr>
   </thead>
   <tbody id="tenant_table"></tbody>

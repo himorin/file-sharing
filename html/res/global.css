@@ -1,4 +1,9 @@
 
+div.inithide {
+  display: none;
+}
+
+
 ul.inlinelist {
   display: inline;
   padding: 0;

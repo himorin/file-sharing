@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ファイル共有サービス - テナント管理画面</title>
+  <link rel="stylesheet" href="../../res/global.css">
+  <script src="../../res/global.js"></script>
+  <script>
+<!--
+let akey = { 'dir': '../../' };
+const api_path = {
+  'tn': '/api/tn.cgi',
+  'admin': '/api/admin.cgi',
+}
+
+// init for all, check adminkey
+function showAdmPanel() {
+  let cloc = get_url_path('tn');
+  let tid = '';
+  let cmode = 'admin';
+  if ((cloc[0] == 'group') || (cloc[0] == 'uploads')) {
+    tid = cloc[1];
+    cmode = cloc[0];
+  } else {
+    tid = cloc[0];
+  }
+  fetch(akey['dir'] + api_path['admin'] + '?tn=' + tid)
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else { throw Error('api'); } // redirect all error to adminkey
+  }).then((res) => {
+  }).catch((e) => {
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('panel_adminkey').style.display = 'block';
+  })
+}
+
+function checkLocation() {
+  var cloc = window.location.pathname;
+  if (cloc.substr(-1) != '/') { window.location.href = cloc + '/'; }
+};
+function loadResource(tgt, func) {
+  // load resources
+  var jsi = document.createElement('script');
+  jsi.setAttribute('src', tgt + '/res/global.js');
+  document.getElementsByTagName('head')[0].appendChild(jsi);
+  var css = document.createElement('link');
+  css.setAttribute('rel', 'stylesheet');
+  css.setAttribute('href', tgt + '/res/global.css');
+  document.getElementsByTagName('head')[0].appendChild(css);
+  jsi.onload = () => { func(); }
+};
+window.addEventListener('load', () => {
+  checkLocation();
+  if (typeof set_api_val != 'function') {
+    akey['dir'] = '../../../';
+    loadResource('../../../', showAdmPanel);
+    return;
+  }
+  // register functions to all buttons
+  // exec
+  showAdmPanel();
+});
+
+-->
+  </script>
+</head>
+<body>
+<div id="splash">
+  <h1>ファイル共有サービス - テナント管理画面</h1>
+  <p>URLにテナントIDが付いていないか、存在しないID、もしくはパラメータが不正です。</p>
+</div>
+<div id="panel_adminkey" class="inithide">
+  <h1>ファイル共有サービス - アクセス確認</h1>
+  <p>
+    ファイル共有用テナント<span id="panel_adminkey_tenantname" class="tname apival_name"></span>へのアクセスには8文字の管理キーが必要です。<br>
+    以下に管理キーを入力して、アクセスボタンをクリックしてください。正しい場合は画面が遷移します。<br>
+    なお、動作にはブラウザのクッキーの機能が必要です。一定期間保存されますが、一部のブラウザ(Safariなど)では短期間で消えますのでご注意ください。
+  </p>
+  <form id="panel_adminkey_input">
+    <p>管理キー: <input type="text" id="panel_adminkey_adminkey" size="8"></p>
+    <input type="button" id="panel_adminkey_check" value="アクセス">
+  </form>
+</div>
+<div id="panel_admin" class="inithide">
+  <h1>ファイル共有サービス - テナント <span class="apival_name"></span></h1>
+  <p>
+    このページはファイル共有用テナント<span class="apival_name"></span>の管理画面です。<br>
+    <a href="./group/"">グループ・ラベル管理画面</a>、<a href="./uploads/">ファイル一覧画面</a>が利用可能です。
+  </p>
+  <ul>
+    <li>テナントID: <span class="apival_tid"></span></li>
+    <li>テナント名: <span class="apival_name"></span></li>
+    <li>説明: <span class="apival_memo"></span></li>
+    <li>管理キー: <span class="apival_adminkey"></span></li>
+    <li>データアーカイブURL: <span class="apival_redirect"></span></li>
+    <li>処理フラグ: <span class="apival_noup"></span></li>
+  </ul>
+</div>
+<div id="panel_group" class="inithide">
+  <h1>ファイル共有サービス - テナント <span class="apival_name"></span> - グループ・ラベル一覧・管理画面</h1>
+</div>
+<div id="panel_uploads" class="inithide">
+  <h1>ファイル共有サービス - テナント <span class="apival_name"></span> - ファイル一覧・管理画面</h1>
+</div>
+</body>
+</html>
