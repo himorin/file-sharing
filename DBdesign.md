@@ -8,6 +8,7 @@
   * `name`: テナント名
   * `memo`: テナントの説明
   * `redirect`: ファイルダウンロードのリダイレクト先
+  * `noup`: フラグ (アップロード停止)
 * `files`: ファイルリスト
   * `tid`: テナントID
   * `fid`: ファイルID
@@ -19,7 +20,7 @@
 * `labels`: ラベルリスト
   + `tid`: テナントID
   * `lid`: ラベルID
-  * `isgroup`: グループ扱いをするかどうか
+  * `gid`: グループのアップロード用ID (NULLの場合はラベル)
   * `name`: ラベル名
   * `memo`: ラベルの説明
 * `flabel`: ファイルへのラベルのリスト
@@ -42,7 +43,8 @@ CREATE TABLE tenants (
   adminkey          int UNSIGNED    NOT NULL                             ,
   name              text            NOT NULL                             ,
   memo              text            NOT NULL                             ,
-  redirect          text                NULL                             
+  redirect          text                NULL                             ,
+  noup              tinyint         NOT NULL DEFAULT 0                   
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE files (
@@ -58,7 +60,7 @@ CREATE TABLE files (
 CREATE TABLE labels (
   tid               text            NOT NULL                             ,
   lid               text            NOT NULL UNIQUE                      ,
-  isgroup           tinyint         NOT NULL DEFAULT 0                   ,
+  gid               text                NULL                             ,
   name              text            NOT NULL                             ,
   memo              text                NULL                             
 ) DEFAULT CHARSET=utf8;
