@@ -34,7 +34,7 @@ function uploadFile() {
     if (res.ok) { return res.json(); }
     else { throw Error('upload error'); }
   }).then((res) => {
-    upfiles.append(res);
+    upfiles.push(res);
     showFiles();
   }).catch((err) => {
   })
