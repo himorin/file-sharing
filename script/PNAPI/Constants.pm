@@ -73,7 +73,7 @@ use constant HTTP_STATUS  => {
 };
 
 # local
-use constant DEF_MIMETYPE = 'application/octet-stream';
+use constant DEF_MIMETYPE => 'application/octet-stream';
 
 # DB
 use constant DB_UNLOCK_ABORT => 1;
