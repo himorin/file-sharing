@@ -10,12 +10,13 @@
 let akey = {};
 let upfiles = [];
 const api_path = {
-  'up': '../../api/up.cgi',
+  'dl': '../../api/dl.cgi',
   'info': '../../api/info.cgi',
 }
 
 function uploadFile() {
   let formData = new FormData();
+  document.getElementById('panel_up_form_error').style.display = 'none';
   let cfh = document.getElementById('panel_up_form_file').files;
   if (cfh.length != 1) { return; }
   formData.append('gid', akey['gid']);
@@ -37,30 +38,13 @@ function uploadFile() {
     upfiles.push(res);
     showFiles();
   }).catch((err) => {
+    document.getElementById('panel_up_form_error').style.display = 'block';
   })
 }
 
 function showFiles() {
-  let fhash = {};
-  upfiles.forEach(item => {
-    if (! (item['name'] in fhash)) { fhash[item['name']] = []; }
-    fhash[item['name']].push(item);
-  });
-  let hval = '<tr>';
-  Object.keys(fhash).sort().forEach((item) => {
-    hval += '<td rowspan="' + fhash[item].length + '">' + item + '</td>';
-    fhash[item].forEach(val => {
-      hval += '<td>' + val['memo'] + '</td>';
-      hval += '<td>' + val['mimetype'] + '</td>';
-      hval += '<td>' + val['size'] + '</td>';
-      hval += '<td>' + val['dt'] + '</td>';
-      hval += '<td></td>'; // label
-      hval += '<td></td>'; // edit
-      hval += '<td></td>'; // misc
-      hval += '</tr><tr>';
-    });
-  });
-  document.getElementById('panel_up_done_list').innerHTML = hval.slice(0, -4);
+  document.getElementById('panel_up_done_head').innerHTML = htmlgen_disp_file_head('編集');
+  document.getElementById('panel_up_done_list').innerHTML = htmlgen_disp_file_list(upfiles, '編集', null);
   document.getElementById('splash').style.display = 'none';
   document.getElementById('panel_up').style.display = 'block';
 }
@@ -72,7 +56,7 @@ window.addEventListener('load', () => {
   // register functions to all buttons
   document.getElementById('panel_up_form_submit').addEventListener('click', uploadFile);
   // exec
-  fetch(api_path['info'] + '?lid=' + akey['gid'])
+  fetch(api_path['info'] + '?gid=' + akey['gid'])
   .then((res) => {
     if (res.ok) { return res.json(); }
     else { throw Error('api'); } // invalid URL
@@ -121,21 +105,13 @@ window.addEventListener('load', () => {
       <li><input type="file" id="panel_up_form_file"></li>
     </ul>
     <input type="button" id="panel_up_form_submit" value="アップロード">
+    <div id="panel_up_form_error" class="warning">
+      ファイルアップロード処理に失敗しました。再度試してみてください。
+    </div>
   </form>
   <h2 id="panel_up_done">アップロードしたファイルの一覧</h2>
   <table>
-    <thead>
-      <tr>
-        <th>ファイル名</th>
-        <th>ファイルの説明</th>
-        <th>拡張子</th>
-        <th>ファイルサイズ</th>
-        <th>アップロード日時</th>
-        <th>ラベル</th>
-        <th>編集</th>
-        <th>備考</th>
-      </tr>
-    </thead>
+    <thead id="panel_up_done_head"></thead>
     <tbody id="panel_up_done_list"></tbody>
   </table>
 </div>

@@ -18,8 +18,9 @@
   * `memo`: ファイルの説明
   * `dt`: アップロード日時
   * `size`: ファイルサイズ (byte)
+  * `flags`: フラグ (利用していない)
 * `labels`: ラベルリスト
-  + `tid`: テナントID
+  * `tid`: テナントID
   * `lid`: ラベルID
   * `gid`: グループのアップロード用ID (NULLの場合はラベル)
   * `name`: ラベル名
@@ -56,7 +57,8 @@ CREATE TABLE files (
   mimetype          text            NOT NULL                             ,
   memo              text            NOT NULL                             ,
   dt                DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP   ,
-  size              int             NOT NULL DEFAULT 0                   
+  size              int             NOT NULL DEFAULT 0                   ,
+  flags             tinyint         NOT NULL DEFAULT 0                   
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE labels (

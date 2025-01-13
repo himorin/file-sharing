@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ファイル共有サービス - ラベル・グループ表示</title>
+  <link rel="stylesheet" href="../../res/global.css">
+  <script src="../../res/global.js"></script>
+  <script>
+<!--
+let akey = {};
+let upfiles = [];
+const api_path = {
+  'up': '../../api/up.cgi',
+  'dl': '../../api/dl.cgi',
+  'info': '../../api/info.cgi',
+}
+
+function showFiles() {
+  document.getElementById('panel_list_head').innerHTML = htmlgen_disp_file_head('リンク');
+  if (akey['type'] == 'group') {
+    document.getElementById('panel_list_files').innerHTML = htmlgen_disp_file_list(akey['files'], 'ダウンロード', api_path['dl'] + '?fid=');
+  } else {
+  }
+}
+function callAllDown() {
+}
+
+window.addEventListener('load', () => {
+  let ch = get_url_path('dg');
+  if (ch.length != 1) { return; } // invalid URL
+  akey['lid'] = ch[0];
+  // register functions to all buttons
+  document.getElementById('panel_list_downall').addEventListener('click', callAllDown);
+  // exec
+  fetch(api_path['info'] + '?lid=' + akey['lid'])
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else { throw Error('api'); } // invalid URL
+  }).then((res) => {
+    set_api_val('group_name', res['info']['name']);
+    set_api_val('group_memo', res['info']['memo']);
+    Array.from(document.getElementsByClassName('apicl_' + res['info']['type'])).forEach((item) => { item.style.display = 'inline'; } );
+    akey['type'] = res['info']['type'];
+    set_api_val('name', res['tenant']['name']);
+    akey['files'] = res['files'];
+    akey['groups'] = res['groups'];
+    showFiles();
+  }).catch((e) => {
+    // anything?
+  })
+});
+-->
+</script>
+</head>
+<body>
+<div id="splash">
+  <h1>ファイル共有サービス - ラベル・グループ表示画面</h1>
+  <p>
+    指定されたIDが存在しません。管理者から共有されたURLをご確認ください。
+  </p>
+</div>
+<div id="panel_list">
+  <h1>ファイル共有サービス - ラベル・グループ表示画面</h1>
+  <p>
+    <span class="apival_name"></span>の<span class="apival_group_name"></span>の<span class="apicl_group apicl">グループ</span><span class="apicl_label apicl">ラベル</span>がつけられたファイルの一覧です。<br>
+    この<span class="apicl_group apicl">グループ</span><span class="apicl_label apicl">ラベル</span>についての説明: <span class="apival_group_memo"></span>
+  </p>
+  <p>
+    こちらですべてのファイルをzipアーカイブでダウンロードできます <input type="button" id="panel_list_downall" value="全てのファイルを一括ダウンロード"><br>
+    <span class="apicl_group apicl">グループの一括ダウンロードの場合、ディレクトリがないzipアーカイブとして生成されます。</span>
+    <span class="apicl_label apicl">ラベルの一括ダウンロードの場合、グループごとに別なディレクトリが作成され、それぞれのディレクトリ内にファイルが入ったzipアーカイブとして生成されます。</span>
+    <br>
+    zipアーカイブ内の同じディレクトリに同名のファイルがある場合、区別のためにアップロード日時が後ろについたファイル名に変換されますのでご注意ください。
+  </p>
+  <h2>ファイル一覧</h2>
+  <p class="apicl_label apicl">
+    ファイルはグループごとにまとめて表示されていますのでご注意ください。
+  </p>
+  <table>
+    <thead id="panel_list_head"></thead>
+    <tbody id="panel_list_files"></tbody>
+  </table>
+</div>
+</body>
+</html>

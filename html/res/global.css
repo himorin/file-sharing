@@ -6,6 +6,9 @@ div.inithide {
 span.apival_name {
   font-weight: bold;
 }
+span.apicl {
+  display: none;
+}
 
 ul.inlinelist {
   display: inline;
