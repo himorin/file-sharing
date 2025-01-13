@@ -25,6 +25,7 @@ sub generate_id {
     my $cur = $obj_uuid->to_hexstring($obj_uuid->create());
     if (substr($cur, 0, 2) == '0x') { $cur = substr($cur, 2); }
     push(@arr, $cur);
+    $num--;
   }
   return \@arr;
 }
