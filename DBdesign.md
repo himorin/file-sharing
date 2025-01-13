@@ -11,6 +11,7 @@
   * `noup`: フラグ (アップロード停止)
 * `files`: ファイルリスト
   * `tid`: テナントID
+  * `gid`: グループID (lidの方)
   * `fid`: ファイルID
   * `name`: ファイル名
   * `mimetype`: MIME type (拡張子を入れる)
@@ -49,6 +50,7 @@ CREATE TABLE tenants (
 
 CREATE TABLE files (
   tid               text            NOT NULL                             ,
+  gid               text            NOT NULL                             ,
   fid               text            NOT NULL UNIQUE                      ,
   name              text            NOT NULL                             ,
   mimetype          text            NOT NULL                             ,

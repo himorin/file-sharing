@@ -24,7 +24,9 @@ function uploadFile() {
   if (document.getElementById('panel_up_form_name').value != '') {
     formData.append('name', document.getElementById('panel_up_form_name').value);
   } else {
-    formData.append('name', cfh[0].name);
+    let cn = cfh[0].name;
+    if (cn.lastIndexOf('.') > 0) { cn = cn.substr(cn.lastIndexOf('.') + 1); }
+    formData.append('name', cn);
   }
   formData.append('memo', document.getElementById('panel_up_form_memo').value);
   fetch(api_path['up'], { method: 'POST', body: formData })
