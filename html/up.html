@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ファイル共有サービス - アップロード画面</title>
+  <link rel="stylesheet" href="../../res/global.css">
+  <script src="../../res/global.js"></script>
+  <script>
+<!--
+let akey = {};
+let upfiles = [];
+const api_path = {
+  'up': '../../api/up.cgi',
+  'info': '../../api/info.cgi',
+}
+
+function uploadFile() {
+  let formData = new FormData();
+  let cfh = document.getElementById('panel_up_form_file').files;
+  if (cfh.length != 1) { return; }
+  formData.append('gid', akey['gid']);
+  formData.append('target_file', cfh[0]);
+  formData.append('size', cfh[0].size);
+  if (document.getElementById('panel_up_form_name').value != '') {
+    formData.append('name', document.getElementById('panel_up_form_name').value);
+  } else {
+    formData.append('name', cfh[0].name);
+  }
+  formData.append('memo', document.getElementById('panel_up_form_memo').value);
+  fetch(api_path['up'], { method: 'POST', body: formData })
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else { throw Error('upload error'); }
+  }).then((res) => {
+    upfiles.append(res);
+    showFiles();
+  }).catch((err) => {
+  })
+}
+
+function showFiles() {
+  let fhash = {};
+  upfiles.forEach(item => {
+    if (! (item['name'] in fhash)) { fhash[item['name']] = []; }
+    fhash[item['name']].push(item);
+  });
+  let hval = '<tr>';
+  Object.keys(fhash).sort().forEach((item) => {
+    hval += '<td rowspan="' + fhash[item].length + '">' + item + '</td>';
+    fhash[item].forEach(val => {
+      hval += '<td>' + val['memo'] + '</td>';
+      hval += '<td>' + val['mimetype'] + '</td>';
+      hval += '<td>' + val['size'] + '</td>';
+      hval += '<td>' + val['dt'] + '</td>';
+      hval += '<td></td>'; // label
+      hval += '<td></td>'; // edit
+      hval += '<td></td>'; // misc
+      hval += '</tr><tr>';
+    });
+  });
+  document.getElementById('panel_up_done_list').innerHTML = hval.slice(0, -4);
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('panel_up').style.display = 'block';
+}
+
+window.addEventListener('load', () => {
+  let ch = get_url_path('up');
+  if (ch.length != 1) { return; } // invalid URL
+  akey['gid'] = ch[0];
+  // register functions to all buttons
+  document.getElementById('panel_up_form_submit').addEventListener('click', uploadFile);
+  // exec
+  fetch(api_path['info'] + '?lid=' + akey['gid'])
+  .then((res) => {
+    if (res.ok) { return res.json(); }
+    else { throw Error('api'); } // invalid URL
+  }).then((res) => {
+    set_api_val('group_name', res['info']['name']);
+    set_api_val('group_memo', res['info']['memo']);
+    set_api_val('name', res['tenant']['name']);
+    akey['info'] = res;
+    showFiles();
+  }).catch((e) => {
+    // anything?
+  })
+});
+-->
+  </script>
+</head>
+<body>
+<div id="splash">
+  <h1>ファイル共有サービス - アップロード画面</h1>
+  <p>
+    指定されたアップロード用のIDが存在しないかアップロード期間が終了しています。<br>
+    依頼者から送付されたURLが正しいか確認してください。
+  </p>
+</div>
+<div id="panel_up" class="inithide">
+  <h1>ファイル共有サービス - アップロード画面</h1>
+  <p>
+    <span class="apival_name"></span>の<span class="apival_group_name"></span>グループへのアップロードを行います。<br>
+    アップロードしたファイルに対する説明文やファイル名の編集は、この画面を開いている間のみ行うことが可能です。<br>
+    このグループについての説明: <span class="apival_group_memo"></span>
+  </p>
+  <p>
+    グループに対してアップロードされたファイルの一括ダウンロードの機能などもあるため、同じ名前のファイルが既にアップロードされていた場合にその旨の表示が出ます。
+    ファイル名の変更も可能ですので、必要ならば日付を入れるなどもご検討ください。<br>
+    zipファイルを追加した場合でも、サーバ側でzipファイルを展開したりはせず、アーカイブファイルそのままで登録されます。
+  </p>
+  <h2>ファイルアップロード</h2>
+  <form id="panel_up_form">
+    <p>
+      ファイルの選択、説明などの入力後、アップロードボタンを押してください。
+      アップロード完了時に<a href="panel_up_done">下のアップロードしたファイルの一覧</a>に追加されます。
+    </p>
+    <ul>
+      <li>ファイル名 (変更の必要があれば): <input type="text" id="panel_up_form_name" size="20"></li>
+      <li>ファイルの説明: <input type="text" id="panel_up_form_memo" size="100"></li>
+      <li><input type="file" id="panel_up_form_file"></li>
+    </ul>
+    <input type="button" id="panel_up_form_submit" value="アップロード">
+  </form>
+  <h2 id="panel_up_done">アップロードしたファイルの一覧</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ファイル名</th>
+        <th>ファイルの説明</th>
+        <th>拡張子</th>
+        <th>ファイルサイズ</th>
+        <th>アップロード日時</th>
+        <th>ラベル</th>
+        <th>編集</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody id="panel_up_done_list"></tbody>
+  </table>
+</div>
+</body>
+</html>
