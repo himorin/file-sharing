@@ -20,6 +20,7 @@ my $ret = {};
 
 # check access
 my $is_ok = 0;
+my $sth;
 if (defined $obj_cgi->cookie($c_tenant)) {
   $sth = $dbh->prepare('SELECT * FROM tenants WHERE tid = ? AND adminkey = ?');
   $sth->execute($c_tenant, $obj_config->secret_to_int($obj_cgi->cookie($c_tenant)));
