@@ -35,6 +35,8 @@ use Cwd;
   DEF_LANG
 
   DB_UNLOCK_ABORT
+
+  DEF_MIMETYPE
 );
 
 use constant TRUE         => 1;
@@ -69,6 +71,9 @@ use constant HTTP_STATUS  => {
   501 => '501 Not Implemented',
   503 => '503 Service Unavailable',
 };
+
+# local
+use constant DEF_MIMETYPE = 'application/octet-stream';
 
 # DB
 use constant DB_UNLOCK_ABORT => 1;
