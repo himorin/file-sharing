@@ -20,9 +20,18 @@ function showFiles() {
   if (akey['type'] == 'group') {
     document.getElementById('panel_list_files').innerHTML = htmlgen_disp_file_list(akey['files'], 'ダウンロード', api_path['dl'] + '?fid=');
   } else {
+    document.getElementById('panel_list_files').innerHTML = '';
+    let gfiles = {};
+    Object.keys(akey['groups']).forEach((item) => { gfiles[item] = []; });
+    akey['files'].forEach((item) => { gfiles[item['gid']].push(item); })
+    Object.keys(akey['groups']).sort().forEach((item) => {
+      document.getElementById('panel_list_files').innerHTML += htmlgen_disp_file_all('<span title="' + akey['groups'][item] + '">' + item + '</span>');
+      document.getElementById('panel_list_files').innerHTML += htmlgen_disp_file_list(gfiles[item], 'ダウンロード', api_path['dl'] + '?fid=');
+    })
   }
 }
 function callAllDown() {
+  window.open(api_path['dl'] + '?lid=' + akey['lid']);
 }
 
 window.addEventListener('load', () => {
@@ -44,6 +53,8 @@ window.addEventListener('load', () => {
     set_api_val('name', res['tenant']['name']);
     akey['files'] = res['files'];
     akey['groups'] = res['groups'];
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('panel_list').style.display = 'block';
     showFiles();
   }).catch((e) => {
     // anything?
@@ -59,7 +70,7 @@ window.addEventListener('load', () => {
     指定されたIDが存在しません。管理者から共有されたURLをご確認ください。
   </p>
 </div>
-<div id="panel_list">
+<div id="panel_list" class="inithide">
   <h1>ファイル共有サービス - ラベル・グループ表示画面</h1>
   <p>
     <span class="apival_name"></span>の<span class="apival_group_name"></span>の<span class="apicl_group apicl">グループ</span><span class="apicl_label apicl">ラベル</span>がつけられたファイルの一覧です。<br>

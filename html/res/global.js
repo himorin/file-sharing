@@ -25,6 +25,9 @@ function htmlgen_disp_file_head(opt) {
   hval += '</tr>';
   return hval;
 }
+function htmlgen_disp_file_all(val) {
+  return '<tr><td colspan="8">' + val + '</td></tr>';
+}
 function htmlgen_disp_file_list(flist, opt, link) {
   let fhash = {};
   flist.forEach(item => {
