@@ -36,7 +36,7 @@ if (rindex($c_ext, '.') < 0) { $c_ext = 'dat'; }
 else { $c_ext = substr($c_ext, rindex($c_ext, '.') + 1); }
 
 # check gid
-$sth = $dbh->prepare('SELECT *, tenants.name AS tname FROM labels LEFT JOIN tenants ON labels.tid = tenants.tid WHERE labels.gid = ?');
+$sth = $dbh->prepare('SELECT * FROM labels LEFT JOIN tenants ON labels.tid = tenants.tid WHERE labels.gid = ?');
 $sth->execute($c_gid);
 if ($sth->rows != 1) {
   $obj_cgi->send_error(503, 'invalid gid');
@@ -50,7 +50,7 @@ if (defined($cginfo->{'redirect'}) || ($cginfo->{'noup'} != 0)) {
 
 my $fid = PNAPI::Utils::generate_id(1);
 $sth = $dbh->prepare('INSERT INTO files (tid, gid, fid, name, mimetype, memo, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
-my $nrow = $sth->execute($cginfo->{'tid'}, $cginfo->{'lid'}, $fid, $c_name, $c_ext, $c_memo, $c_fsize);
+my $nrow = $sth->execute($cginfo->{'tid'}, $cginfo->{'lid'}, $fid[0], $c_name, $c_ext, $c_memo, $c_fsize);
 if (! defined($nrow)) {
   $obj_cgi->send_error(503, 'id generation failed');
   exit;
@@ -63,7 +63,7 @@ if ($sth->rows != 1) {
 }
 $ret = $sth->fetchrow_hashref();
 
-my $rfname = $obj_config->GetHashFilename($fid, 0, $cginfo->{'tname'}, 1);
+my $rfname = $obj_config->GetHashFilename($fid[0], 0, $cginfo->{'tid'}, 1);
 my $rfpath = substr($rfname, 0, rindex($rfname, '/'));
 eval {
   File::Path::mkpath($rfpath);
