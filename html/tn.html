@@ -146,15 +146,16 @@ function loadResource(tgt, func) {
 };
 window.addEventListener('load', () => {
   checkLocation();
+  // register functions to all buttons
+  document.getElementById('panel_adminkey_check').addEventListener('click', checkAdminkey);
+  document.getElementById('panel_group_group_add_submit').addEventListener('click', addResGroup);
+  document.getElementById('panel_group_label_add_submit').addEventListener('click', addResLabel);
+  // for sub modes
   if (typeof set_api_val != 'function') {
     akey['dir'] = '../../../';
     loadResource('../../../', showAdmPanel);
     return;
   }
-  // register functions to all buttons
-  document.getElementById('panel_adminkey_check').addEventListener('click', checkAdminkey);
-  document.getElementById('panel_group_group_add_submit').addEventListener('click', addResGroup);
-  document.getElementById('panel_group_label_add_submit').addEventListener('click', addResLabel);
   // exec
   showAdmPanel();
 });
