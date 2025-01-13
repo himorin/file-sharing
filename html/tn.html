@@ -41,8 +41,8 @@ function showGroup() {
     chv += '<td>' + akey['groups'][item]['name'] + '</td>';
     chv += '<td></td>';
     chv += '<td>' + akey['groups'][item]['memo'] + '</td>';
-    chv += '<td><a href="' + akey['dir'] + '/up/' + akey['groups']['item']['gid'] + '/">アップロード</a></td>';
-    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['groups']['item']['lid'] + '/">ダウンロード</a></td>';
+    chv += '<td><a href="' + akey['dir'] + '/up/' + akey['groups'][item]['gid'] + '/">アップロード</a></td>';
+    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['groups'][item]['lid'] + '/">ダウンロード</a></td>';
     chv += '</tr>';
   })
   document.getElementById('panel_group_group_list').innerHTML = chv;
@@ -53,7 +53,7 @@ function showGroup() {
     chv += '<td>' + akey['labels'][item]['name'] + '</td>';
     chv += '<td></td>';
     chv += '<td>' + akey['labels'][item]['memo'] + '</td>';
-    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['labels']['item']['lid'] + '/">ダウンロード</a></td>';
+    chv += '<td><a href="' + akey['dir'] + '/dg/' + akey['labels'][item]['lid'] + '/">ダウンロード</a></td>';
     chv += '</tr>';
   })
   document.getElementById('panel_group_label_list').innerHTML = chv;
