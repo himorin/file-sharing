@@ -19,11 +19,13 @@ function showAdmPanel() {
   let tid = '';
   let cmode = 'admin';
   if ((cloc[0] == 'group') || (cloc[0] == 'uploads')) {
-    tid = cloc[1];
-    cmode = cloc[0];
+    cmode = cloc.shift();
+    tid = cloc.shift();
   } else {
-    tid = cloc[0];
+    tid = cloc.shift();
   }
+  akey['head'] = '/';
+  while (cloc.length) { akey['head'] += cloc.pop() + '/'; }
   akey['tid'] = tid;
   akey['mode'] = cmode;
   checkAdminkey();
@@ -32,7 +34,7 @@ function showAdmPanel() {
 function checkAdminkey() {
   let cv = document.getElementById('panel_adminkey_adminkey').value;
   if (cv != '') {
-    document.cookie = akey['tid'] + '=' + cv + '; samesite=strict; path=' + akey['dir'];
+    document.cookie = akey['tid'] + '=' + cv + '; samesite=strict; path=' + akey['head'];
   }
   document.getElementById('panel_adminkey_adminkey').value = '';
   fetch(akey['dir'] + api_path['admin'] + '?tn=' + akey['tid'])
