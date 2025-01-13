@@ -36,7 +36,7 @@ if (rindex($c_ext, '.') < 0) { $c_ext = 'dat'; }
 else { $c_ext = substr($c_ext, rindex($c_ext, '.') + 1); }
 
 # check gid
-$sth = $dbh->prepare('SELECT *, tenants.name AS tname FROM labels LEFT JOIN tenants ON labels.tid = tenants.tid WHERE labels.gid = ?')
+$sth = $dbh->prepare('SELECT *, tenants.name AS tname FROM labels LEFT JOIN tenants ON labels.tid = tenants.tid WHERE labels.gid = ?');
 $sth->execute($c_gid);
 if ($sth->rows != 1) {
   $obj_cgi->send_error(503, 'invalid gid');
