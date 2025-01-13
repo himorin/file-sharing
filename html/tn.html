@@ -44,12 +44,12 @@ function checkAdminkey() {
   }).then((res) => {
     if (akey['tid'] in res) {
       let ct = res[akey['tid']];
-      set_api_val('tid') = ct['tid'];
-      set_api_val('name') = ct['name'];
-      set_api_val('memo') = ct['memo'];
-      set_api_val('adminkey') = ct['adminkey'];
-      set_api_val('redirect') = ct['redirect'];
-      if (ct['noup'] != 0) { set_api_val('noup') = 'アップロード停止中'; }
+      set_api_val('tid', ct['tid']);
+      set_api_val('name', ct['name']);
+      set_api_val('memo', ct['memo']);
+      set_api_val('adminkey', ct['adminkey']);
+      set_api_val('redirect', ct['redirect']);
+      if (ct['noup'] != 0) { set_api_val('noup', 'アップロード停止中'); }
     } else { throw Error('apidata'); }
     document.getElementById('panel_adminkey').style.display = 'none';
     document.getElementById('panel_' + akey['mode']).style.display = 'block';
