@@ -31,7 +31,7 @@ if (defined($cfid)) {
   $ret->{'info'} = $sth->fetchrow_hashref();
 } elsif (defined($clid)) {
   $sth = $dbh->prepare('SELECT * FROM labels WHERE lid = ? OR gid = ?');
-  $sth->execute($clid);
+  $sth->execute($clid, $clid);
   if ($sth->rows != 1) {
     $obj_cgi->send_error(503, 'lid not found');
     exit;
