@@ -84,7 +84,7 @@ function addRes(val) {
       return res.json().then((res) => { throw Error("api\n" + res['message']); })
     }
   }).then((res) => {
-    if ('gid' in res) { akey['groups'][res['name']] = res; }
+    if (('gid' in res) && (res['gid'] != null)) { akey['groups'][res['name']] = res; }
     else { akey['labels'][res['name']] = res; }
     showGroup();
   }).catch((err) => {
