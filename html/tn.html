@@ -45,7 +45,7 @@ function showGroup() {
   })
   document.getElementById('panel_group_group_list').innerHTML = chv;
   // label
-  let chv = '';
+  chv = '';
   Object.keys(akey['labels']).sort().forEach((item) => {
     chv += '<tr>';
     chv += '<td>' + akey['groups'][item]['name'] + '</td>';
