@@ -24,11 +24,38 @@ function showAdmPanel() {
   } else {
     tid = cloc[0];
   }
-  fetch(akey['dir'] + api_path['admin'] + '?tn=' + tid)
+  akey['tid'] = tid;
+  akey['mode'] = cmode;
+  checkAdminkey();
+}
+
+function checkAdminkey() {
+  let cv = document.getElementById('panel_adminkey_adminkey').value;
+  if (cv != '') {
+    document.cookie = akey['tid'] + '=' + cv + '; samesite=strict; path=' + akey['dir'];
+  }
+  document.getElementById('panel_adminkey_adminkey').value = '';
+  fetch(akey['dir'] + api_path['admin'] + '?tn=' + akey['tid'])
   .then((res) => {
     if (res.ok) { return res.json(); }
     else { throw Error('api'); } // redirect all error to adminkey
   }).then((res) => {
+    if (akey['tid'] in res) {
+      let ct = res[akey['tid']];
+      set_api_val('tid') = ct['tid'];
+      set_api_val('name') = ct['name'];
+      set_api_val('memo') = ct['memo'];
+      set_api_val('adminkey') = ct['adminkey'];
+      set_api_val('redirect') = ct['redirect'];
+      if (ct['noup'] != 0) { set_api_val('noup') = 'アップロード停止中'; }
+    } else { throw Error('apidata'); }
+    document.getElementById('panel_adminkey').style.display = 'none';
+    document.getElementById('panel_' + akey['mode']).style.display = 'block';
+    akey['groups'] = res['groups'];
+    akey['files'] = res['files'];
+    akey[akey['tid']] = res[akey['tid']];
+    if (akey['mode'] == 'group') { showGroup(); }
+    if (akey['mode'] == 'uploads') { showUploads(); }
   }).catch((e) => {
     document.getElementById('splash').style.display = 'none';
     document.getElementById('panel_adminkey').style.display = 'block';
@@ -58,6 +85,7 @@ window.addEventListener('load', () => {
     return;
   }
   // register functions to all buttons
+  document.getElementById('panel_adminkey_check').addEventListener('click', checkAdminkey);
   // exec
   showAdmPanel();
 });
