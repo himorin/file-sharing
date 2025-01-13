@@ -49,7 +49,7 @@ if (defined($cginfo->{'redirect'}) || ($cginfo->{'noup'} != 0)) {
 }
 
 my $fid = PNAPI::Utils::generate_id(1);
-$sth = $dbh->prepare('INSERT INTO files SET (tid, gid, fid, name, mimetype, memo, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
+$sth = $dbh->prepare('INSERT INTO files (tid, gid, fid, name, mimetype, memo, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
 my $nrow = $sth->execute($cginfo->{'tid'}, $cginfo->{'lid'}, $fid, $c_name, $c_ext, $c_memo, $c_fsize);
 if (! defined($nrow)) {
   $obj_cgi->send_error(503, 'id generation failed');
