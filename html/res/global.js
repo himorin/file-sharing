@@ -1,6 +1,6 @@
 // check all span with class "apival_<id>" with <text>
 function set_api_val(id, text) {
-  document.getElementsByClassName('apival_' + id).forEach((item) => { item.innerText = text; } );
+  Array.from(document.getElementsByClassName('apival_' + id)).forEach((item) => { item.innerText = text; } );
 }
 function get_url_path(target) {
   let urls = document.URL.split('/');
