@@ -75,6 +75,7 @@ $c_tid = $tgt->{'tid'};
 if (defined($tgt->{'gid'})) {
   # single group mode
   $sth = $dbh->prepare('SELECT *, UNIX_TIMESTAMP(dt) AS dtunix FROM files WHERE gid = ?');
+  $sth->execute($c_lid);
   while (my $cf = $sth->fetchrow_hashref) {
     # check files.name contains '/' or not
     if (index($cf->{'name'}, '/') > -1) { 
