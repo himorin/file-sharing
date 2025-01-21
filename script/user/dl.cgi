@@ -81,7 +81,7 @@ if (defined($tgt->{'gid'})) {
       # XXX to be implemented, register directories into $dirs
     }
     my $fname = $cf->{'name'} . '.' . $cf->{'mimetype'};
-    if (! exists($fname)) {
+    if (! exists($files->{$fname})) {
       $files->{$fname} = {};
     }
     $files->{$fname}->{$cf->{'fid'}} = $cf->{'dtunix'};
