@@ -98,14 +98,21 @@ print("Content-Disposition: attachment; filename=$DNAME\n");
 print("\n");
 my $ozip = Archive::Zip->new();
 _add_dirs($ozip, '', $dirs);
+my $clfile;
 foreach my $fname (keys(%$files)) {
   if (scalar keys(%{$files->{$fname}}) > 1) {
     foreach my $tgt (keys(%{$files->{$fname}})) {
-      $ozip->addFile($obj_config->GetHashFilename($c_fid, 0, $c_tid), _build_fname_ut($fname, $files->{$fname}->{$tgt}));
+      $clfile = $obj_config->GetHashFilename($tgt, 0, $c_tid);
+      if (defined($clfile)) { # just in case!
+        $ozip->addFile($clfile, _build_fname_ut($fname, $files->{$fname}->{$tgt}));
+      }
     }
   } else {
     foreach my $tgt (keys(%{$files->{$fname}})) {
-      $ozip->addFile($obj_config->GetHashFilename($c_fid, 0, $c_tid), $fname);
+      $clfile = $obj_config->GetHashFilename($tgt, 0, $c_tid);
+      if (defined($clfile)) { # just in case!
+        $ozip->addFile($clfile, $fname);
+      }
     }
   }
 }
@@ -127,7 +134,7 @@ sub _build_fname_ut {
   my ($fname, $ut) = @_;
   my $out = substr($fname, 0, rindex($fname, '.'));
   my @gt = gmtime($ut);
-  $out .= sprintf('%04d%02d%02dT%02d%02d%02d', $gt[5] + 1900, $gt[4] + 1, $gt[3], $gt[2], $gt[1], $gt[0]);
+  $out .= sprintf('-%04d%02d%02dT%02d%02d%02d', $gt[5] + 1900, $gt[4] + 1, $gt[3], $gt[2], $gt[1], $gt[0]);
   $out .= substr($fname, rindex($fname, '.')); # contains '.'
   return $out;
 }
