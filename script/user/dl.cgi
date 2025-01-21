@@ -60,6 +60,7 @@ if (! defined($c_lid)) {
 }
 
 $sth = $dbh->prepare('SELECT * FROM labels WHERE lid = ?');
+$sth->execute($c_lid);
 if ($sth->rows != 1) {
   $obj_cgi->send_error(503, 'lid not found');
   exit;
