@@ -40,7 +40,7 @@ sub fix_zipname {
   my ($obj_cgi, $name) = @_;
   my $ret = $name;
   if ($obj_cgi->user_agent() =~ /Windows/) {
-    $ret = Encode::encode(ZIP_WIN_ENC, $name);
+    $ret = Encode::encode(PNAPI::Constants::ZIP_WIN_ENC, $name);
   } else {
     # nothing specific
   }
