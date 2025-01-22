@@ -104,14 +104,14 @@ foreach my $fname (keys(%$files)) {
     foreach my $tgt (keys(%{$files->{$fname}})) {
       $clfile = $obj_config->GetHashFilename($tgt, 0, $c_tid);
       if (defined($clfile)) { # just in case!
-        $ozip->addFile($clfile, _build_fname_ut($fname, $files->{$fname}->{$tgt}));
+        $ozip->addFile($clfile, PNAPI::Utils::fix_zipname($obj_cgi, _build_fname_ut($fname, $files->{$fname}->{$tgt})));
       }
     }
   } else {
     foreach my $tgt (keys(%{$files->{$fname}})) {
       $clfile = $obj_config->GetHashFilename($tgt, 0, $c_tid);
       if (defined($clfile)) { # just in case!
-        $ozip->addFile($clfile, $fname);
+        $ozip->addFile($clfile, PNAPI::Utils::fix_zipname($obj_cgi, $fname));
       }
     }
   }
@@ -125,7 +125,7 @@ sub _add_dirs {
   my $cadd;
   foreach my $cdir (keys(%$hash)) {
     $cadd = $head . '/' . $cdir;
-    $ozip->addDirectory($cadd);
+    $ozip->addDirectory(PNAPI::Utils::fix_zipname($obj_cgi, $cadd));
     _add_dirs($ozip, $cadd, $hash->{$cdir});
   }
 }

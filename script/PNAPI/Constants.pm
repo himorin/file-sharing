@@ -57,6 +57,8 @@ use constant PNAPI_CONFIG => "siteconfig.json";
 use constant HASH_PREVIEW => 'jpg';
 use constant DEF_LANG     => 'ja';
 
+use constant ZIP_WIN_ENC  => 'cp932';
+
 use constant HTTP_STATUS  => {
   200 => '200 OK',
   201 => '201 Created',

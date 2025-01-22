@@ -9,9 +9,14 @@ use strict;
 
 use base qw(Exporter);
 use Data::UUID;
+use Encode;
+
+use PNAPI::Constants;
+use PNAPI::CGI;
 
 @PNAPI::Utils::EXPORT = qw(
   generate_id
+  fix_zipname
 );
 
 
@@ -30,6 +35,17 @@ sub generate_id {
   return \@arr;
 }
 
+# convert encoding based on target device
+sub fix_zipname {
+  my ($obj_cgi, $name) = @_;
+  my $ret = $name;
+  if ($obj_cgi->user_agent() =~ /Windows/) {
+    $ret = Encode::encode(ZIP_WIN_ENC, $name);
+  } else {
+    # nothing specific
+  }
+  return $ret;
+}
 
 
 
