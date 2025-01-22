@@ -11,6 +11,7 @@ use PNAPI::Constants;
 use PNAPI::Config;
 use PNAPI::CGI;
 use PNAPI::DB;
+use PNAPI::Utils;
 
 my $obj_cgi = new PNAPI::CGI;
 my $obj_config = new PNAPI::Config;
