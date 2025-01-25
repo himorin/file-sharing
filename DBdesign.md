@@ -25,6 +25,7 @@
   * `gid`: グループのアップロード用ID (NULLの場合はラベル)
   * `name`: ラベル名
   * `memo`: ラベルの説明
+  * `display`: 表示用フラグ (未利用)
 * `flabel`: ファイルへのラベルのリスト
   * `fid`: ファイルID
   * `lid`: ラベルID
@@ -66,7 +67,8 @@ CREATE TABLE labels (
   lid               text            NOT NULL UNIQUE                      ,
   gid               text                NULL                             ,
   name              text            NOT NULL                             ,
-  memo              text                NULL                             
+  memo              text                NULL                             ,
+  display           tinyint         NOT NULL DEFAULT 0                   
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE flabel (
