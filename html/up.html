@@ -26,7 +26,7 @@ function uploadFile() {
     formData.append('name', document.getElementById('panel_up_form_name').value);
   } else {
     let cn = cfh[0].name;
-    if (cn.lastIndexOf('.') > 0) { cn = cn.substr(cn.lastIndexOf('.') + 1); }
+    if (cn.lastIndexOf('.') > 0) { cn = cn.substr(0, cn.lastIndexOf('.')); }
     formData.append('name', cn);
   }
   formData.append('memo', document.getElementById('panel_up_form_memo').value);
